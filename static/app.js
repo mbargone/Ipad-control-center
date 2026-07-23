@@ -69,18 +69,23 @@ function getMoonPhaseName(degrees) {
     return 'Nouvelle lune';
 }
 
-// === Formater l'heure depuis ISO ===
+// === Formater l'heure depuis une chaine ISO ou datetime ===
+// On extrait directement HH:MM de la chaine au lieu d'utiliser new Date()
+// car les vieux Safari interpretent les dates sans timezone en UTC
 function formatTime(isoString) {
     if (!isoString || isoString === 'N/A') return '--:--';
-    try {
-        var date = new Date(isoString);
-        if (isNaN(date.getTime())) return '--:--';
-        var h = padZero(date.getHours());
-        var m = padZero(date.getMinutes());
-        return h + ':' + m;
-    } catch (e) {
-        return '--:--';
+    // Format attendu: "2026-07-23T05:15" ou "2026-07-23T05:15:00"
+    // On cherche le T et on prend les 5 caracteres apres
+    var tIndex = isoString.indexOf('T');
+    if (tIndex !== -1 && isoString.length >= tIndex + 6) {
+        return isoString.substring(tIndex + 1, tIndex + 6);
     }
+    // Fallback: chercher un pattern HH:MM dans la chaine
+    var match = isoString.match(/(\d{2}):(\d{2})/);
+    if (match) {
+        return match[1] + ':' + match[2];
+    }
+    return '--:--';
 }
 
 // === Recuperer les donnees meteo ===
