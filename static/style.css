@@ -16,13 +16,17 @@ html, body {
 
 /* === Dashboard Layout === */
 .dashboard {
+    display: -webkit-flex;
     display: flex;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-justify-content: center;
     justify-content: center;
     height: 100vh;
     padding: 20px;
-    gap: 25px;
+    gap: 20px;
 }
 
 /* === Horloge === */
@@ -31,135 +35,106 @@ html, body {
 }
 
 .time {
-    font-size: 10rem;
+    font-size: 7rem;
     font-weight: 200;
     letter-spacing: 2px;
     text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .date {
-    font-size: 1.95rem;
+    font-size: 1.5rem;
     color: #a0a0c0;
     margin-top: 5px;
     text-transform: capitalize;
 }
 
-/* === Météo === */
+/* === Contenu principal: cote a cote === */
+.main-content {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    gap: 25px;
+    width: 100%;
+    max-width: 900px;
+    -webkit-align-items: stretch;
+    align-items: stretch;
+}
+
+/* === Meteo (gauche) === */
 .weather-section {
+    -webkit-flex: 1;
+    flex: 1;
     text-align: center;
     background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
-    padding: 20px 30px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    padding: 20px 25px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    width: 100%;
-    max-width: 700px;
 }
 
 .weather-header {
+    display: -webkit-flex;
     display: flex;
+    -webkit-align-items: center;
     align-items: center;
+    -webkit-justify-content: center;
     justify-content: center;
-    gap: 15px;
+    gap: 12px;
     margin-bottom: 12px;
 }
 
 .weather-icon {
-    font-size: 3.75rem;
+    font-size: 2rem;
 }
 
 .weather-temp {
-    font-size: 4.5rem;
+    font-size: 3.5rem;
     font-weight: 300;
 }
 
 .weather-details {
+    display: -webkit-flex;
     display: flex;
+    -webkit-justify-content: space-around;
     justify-content: space-around;
     margin: 12px 0;
 }
 
 .weather-detail {
+    display: -webkit-flex;
     display: flex;
+    -webkit-flex-direction: column;
     flex-direction: column;
+    -webkit-align-items: center;
     align-items: center;
 }
 
 .weather-detail .label {
-    font-size: 1.125rem;
+    font-size: 0.85rem;
     color: #8888aa;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
 .weather-detail .value {
-    font-size: 1.65rem;
+    font-size: 1.3rem;
     margin-top: 4px;
 }
 
 .weather-condition {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     color: #c0c0e0;
     margin-top: 8px;
 }
 
-.location {
-    font-size: 1.2rem;
-    color: #6666aa;
-    margin-top: 8px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* === Astronomie === */
-.astro-section {
-    display: flex;
-    gap: 30px;
-    width: 100%;
-    max-width: 700px;
-    justify-content: center;
-}
-
-.astro-group {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
-    padding: 15px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    flex: 1;
-}
-
-.astro-group h3 {
-    font-size: 1.5rem;
-    font-weight: 400;
-    margin-bottom: 10px;
-    text-align: center;
-}
-
-.astro-row {
-    display: flex;
-    justify-content: space-between;
-    padding: 4px 0;
-}
-
-.astro-label {
-    color: #8888aa;
-    font-size: 1.275rem;
-}
-
-.astro-value {
-    font-size: 1.35rem;
-}
-
-/* === Températures min/max === */
-.temp-range-section {
-    text-align: center;
-}
-
 .temp-range {
+    display: -webkit-flex;
     display: flex;
-    gap: 30px;
-    font-size: 1.65rem;
+    -webkit-justify-content: center;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.2rem;
+    margin-top: 10px;
 }
 
 .temp-min {
@@ -170,43 +145,66 @@ html, body {
     color: #ff7e6b;
 }
 
-/* === iPad Landscape Adjustments === */
-@media (orientation: landscape) and (max-height: 768px) {
-    .dashboard {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .clock-section {
-        width: 100%;
-    }
-
-    .time {
-        font-size: 8rem;
-    }
-
-    .weather-section,
-    .astro-section {
-        max-width: 45%;
-    }
+.location {
+    font-size: 0.9rem;
+    color: #6666aa;
+    margin-top: 10px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-/* === Petit écran iPad === */
+/* === Astronomie (droite) === */
+.astro-section {
+    -webkit-flex: 1;
+    flex: 1;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: column;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.astro-group {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    -webkit-flex: 1;
+    flex: 1;
+}
+
+.astro-group h3 {
+    font-size: 1.3rem;
+    font-weight: 400;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.astro-row {
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+.astro-label {
+    color: #8888aa;
+    font-size: 1.1rem;
+}
+
+.astro-value {
+    font-size: 1.1rem;
+}
+
+/* === iPad Portrait === */
 @media (max-width: 768px) {
-    .time {
-        font-size: 7rem;
-    }
-
-    .dashboard {
-        gap: 15px;
-        padding: 15px;
-    }
-
-    .astro-section {
+    .main-content {
+        -webkit-flex-direction: column;
         flex-direction: column;
-        gap: 10px;
+    }
+
+    .time {
+        font-size: 5rem;
     }
 }
