@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Tableau de bord</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Horloge -->
+        <section class="clock-section">
+            <div class="time" id="clock">--:--:--</div>
+            <div class="date" id="date">--</div>
+        </section>
+
+        <!-- Météo -->
+        <section class="weather-section">
+            <div class="weather-header">
+                <span class="weather-icon" id="weather-icon">🌡️</span>
+                <span class="weather-temp" id="temperature">--°C</span>
+            </div>
+            <div class="weather-details">
+                <div class="weather-detail">
+                    <span class="label">Ressenti</span>
+                    <span class="value" id="feels-like">--°C</span>
+                </div>
+                <div class="weather-detail">
+                    <span class="label">Humidité</span>
+                    <span class="value" id="humidity">--%</span>
+                </div>
+                <div class="weather-detail">
+                    <span class="label">Vent</span>
+                    <span class="value" id="wind">-- km/h</span>
+                </div>
+            </div>
+            <div class="weather-condition" id="condition">--</div>
+            <div class="location">Saint-Augustin-de-Desmaures</div>
+        </section>
+
+        <!-- Soleil et Lune -->
+        <section class="astro-section">
+            <div class="astro-group">
+                <h3>☀️ Soleil</h3>
+                <div class="astro-row">
+                    <span class="astro-label">Lever</span>
+                    <span class="astro-value" id="sunrise">--:--</span>
+                </div>
+                <div class="astro-row">
+                    <span class="astro-label">Coucher</span>
+                    <span class="astro-value" id="sunset">--:--</span>
+                </div>
+            </div>
+            <div class="astro-group">
+                <h3>🌙 Lune</h3>
+                <div class="astro-row">
+                    <span class="astro-label">Lever</span>
+                    <span class="astro-value" id="moonrise">--:--</span>
+                </div>
+                <div class="astro-row">
+                    <span class="astro-label">Coucher</span>
+                    <span class="astro-value" id="moonset">--:--</span>
+                </div>
+                <div class="astro-row">
+                    <span class="astro-label">Phase</span>
+                    <span class="astro-value" id="moon-phase">--</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Températures du jour -->
+        <section class="temp-range-section">
+            <div class="temp-range">
+                <span class="temp-min" id="temp-min">⬇ --°C</span>
+                <span class="temp-max" id="temp-max">⬆ --°C</span>
+            </div>
+        </section>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
