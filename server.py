@@ -1,13 +1,31 @@
 ﻿from flask import Flask, render_template, jsonify
 import requests
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
 
 app = Flask(__name__)
 
-# Coordonnées de Saint-Augustin-de-Desmaures, QC
+# Coordonnees de Saint-Augustin-de-Desmaures, QC
 LATITUDE = 46.7383
 LONGITUDE = -71.3684
 TIMEZONE = "America/Toronto"
+
+
+def utc_to_local(iso_string):
+    """Convertit une heure ISO UTC en heure locale (America/Toronto) au format HH:MM."""
+    if not iso_string or iso_string == "N/A":
+        return "N/A"
+    try:
+        # Parser la date ISO (ex: "2026-07-23T23:42:00+00:00")
+        dt = datetime.fromisoformat(iso_string)
+        # Convertir en heure locale
+        local_dt = dt.astimezone(ZoneInfo(TIMEZONE))
+        return local_dt.strftime("%Y-%m-%dT%H:%M")
+    except Exception:
+        return iso_string
 
 
 @app.route("/")
@@ -17,9 +35,9 @@ def index():
 
 @app.route("/api/weather")
 def weather():
-    """Récupère la météo actuelle et les données astronomiques via Open-Meteo."""
+    """Recupere la meteo actuelle et les donnees astronomiques via Open-Meteo."""
     try:
-        # Météo actuelle
+        # Meteo actuelle
         weather_url = (
             f"https://api.open-meteo.com/v1/forecast?"
             f"latitude={LATITUDE}&longitude={LONGITUDE}"
@@ -32,9 +50,7 @@ def weather():
         weather_resp = requests.get(weather_url, timeout=10)
         weather_data = weather_resp.json()
 
-        # Phases de la lune et lever/coucher (API secondaire Open-Meteo n'a pas la lune,
-        # on utilise une approximation ou une API tierce gratuite)
-        # On utilise l'API gratuite de met.no pour la lune (pas de clé requise)
+        # Lune via API met.no (gratuite, pas de cle requise)
         moon_url = (
             f"https://api.met.no/weatherapi/sunrise/3.0/moon?"
             f"lat={LATITUDE}&lon={LONGITUDE}&date={datetime.now().strftime('%Y-%m-%d')}"
@@ -46,9 +62,12 @@ def weather():
         if moon_resp.status_code == 200:
             moon_json = moon_resp.json()
             props = moon_json.get("properties", {})
+            # Convertir les heures UTC en heure locale
+            moonrise_raw = props.get("moonrise", {}).get("time", "N/A")
+            moonset_raw = props.get("moonset", {}).get("time", "N/A")
             moon_data = {
-                "moonrise": props.get("moonrise", {}).get("time", "N/A"),
-                "moonset": props.get("moonset", {}).get("time", "N/A"),
+                "moonrise": utc_to_local(moonrise_raw),
+                "moonset": utc_to_local(moonset_raw),
                 "phase": props.get("moonphase", "N/A"),
             }
 
@@ -64,5 +83,5 @@ def weather():
 
 
 if __name__ == "__main__":
-    # host 0.0.0.0 pour être accessible sur le réseau local (iPad)
+    # host 0.0.0.0 pour etre accessible sur le reseau local (iPad)
     app.run(host="0.0.0.0", port=5000, debug=True)
